@@ -7,17 +7,22 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.muramsyah.evotingapp.databinding.ActivityLoginBinding
 import com.muramsyah.evotingapp.databinding.ActivityMainBinding
 import com.muramsyah.evotingapp.databinding.ActivityRegisterBinding
+import com.muramsyah.evotingapp.model.Mahasiswa
+import com.muramsyah.evotingapp.utils.FireBaseUtils
 import io.reactivex.Observable
 import io.reactivex.functions.Function6
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityRegisterBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +117,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             email,
             password,
             coPassword,
-            Function6 { t1, t2, t3, t4, t5, t6 ->
+            { t1, t2, t3, t4, t5, t6 ->
                 !t1 && !t2 && !t3 && !t4 && !t5 && !t6
             }
         )
@@ -147,7 +152,39 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_register -> Toast.makeText(this, "Register sukses!", Toast.LENGTH_SHORT).show()
+            R.id.btn_register -> {
+                registerUser()
+            }
         }
+    }
+
+    private fun registerUser() {
+        FireBaseUtils.auth.createUserWithEmailAndPassword(binding.edtEmail.text.toString().trim(), binding.edtPassword.text.toString().trim())
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val mahasiswa = FireBaseUtils.auth.currentUser?.let {
+                        Mahasiswa(
+                            it.uid,
+                            binding.edtNim.text.toString().trim(),
+                            binding.edtName.text.toString().trim(),
+                            binding.edtForce.text.toString().trim(),
+                            false,
+                            false,
+                            "0"
+                        )
+                    }
+
+                    FireBaseUtils.ref.getReference("Users").child(FireBaseUtils.auth.currentUser!!.uid).setValue(mahasiswa)
+                        .addOnCompleteListener {
+                            Toast.makeText(this, "Register sukses!", Toast.LENGTH_SHORT).show()
+                            FireBaseUtils.auth.currentUser?.sendEmailVerification()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                } else {
+                    Toast.makeText(this, "Register gagal : ${task.exception}", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }

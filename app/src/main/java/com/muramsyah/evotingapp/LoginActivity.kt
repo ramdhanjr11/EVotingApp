@@ -4,9 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.ktx.Firebase
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.muramsyah.evotingapp.databinding.ActivityLoginBinding
+import com.muramsyah.evotingapp.utils.FireBaseUtils
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 import io.reactivex.functions.Function3
@@ -26,12 +30,31 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            binding.progressBar.visibility = View.VISIBLE
+            loginUser()
         }
 
         authentication()
+    }
+
+    private fun loginUser() {
+        FireBaseUtils.auth.signInWithEmailAndPassword(binding.edtEmail.text.toString().trim(), binding.edtPassword.text.toString().trim())
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                        if (FireBaseUtils.auth.currentUser!!.isEmailVerified) {
+                            binding.progressBar.visibility = View.GONE
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            binding.progressBar.visibility = View.GONE
+                            Toast.makeText(this, "Email belum terverifikasi!", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Email belum terdaftar atau salah password!", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     @SuppressLint("CheckResult")
@@ -74,5 +97,13 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showPasswordAlert(isNotValid: Boolean) {
         binding.tilPassword.error = if(isNotValid) "Password kurang dari 7!" else null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (FireBaseUtils.auth.currentUser != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 }

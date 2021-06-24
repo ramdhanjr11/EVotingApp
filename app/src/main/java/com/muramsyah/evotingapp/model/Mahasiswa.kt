@@ -1,4 +1,4 @@
-package com.muramsyah.evotingapp
+package com.muramsyah.evotingapp.model
 
 data class Mahasiswa(
     val id: String,
