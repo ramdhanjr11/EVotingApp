@@ -1,8 +1,14 @@
 package com.muramsyah.evotingapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.muramsyah.evotingapp.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -17,8 +23,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setUpItemKahim()
+        prepare()
+    }
+
+    private fun setUpItemKahim() {
+        binding.include2.container.backgroundTintList = resources.getColorStateList(R.color.cardViewColor1)
+        binding.include3.container.backgroundTintList = resources.getColorStateList(R.color.cardViewColor2)
+    }
+
+    private fun prepare() {
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
-        val countDate = "23-06-2021 12:00:00"
+        val countDate = "25-06-2021 12:00:00"
         val now = Date()
 
         val date: Date = sdf.parse(countDate)
@@ -47,5 +63,33 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.btn1.setOnClickListener {
+            saveData()
+        }
+    }
+
+    private fun saveData() {
+        val ref = FirebaseDatabase.getInstance().getReference("mahasiswa")
+        val mhsId = ref.push().key
+
+        if (mhsId != null) {
+            val mhs = Mahasiswa(mhsId, "1830511049", "M Ramdhan Syahputra", "2018-2019", true, true, "1")
+            ref.child(mhsId).setValue(mhs).addOnCompleteListener {
+                Toast.makeText(this, "Data Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (i in snapshot.children) {
+                    Log.d("dataFirebase", i.getValue(Mahasiswa::class.java)?.name.toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }
