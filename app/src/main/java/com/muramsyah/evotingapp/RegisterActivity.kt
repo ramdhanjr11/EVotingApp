@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             .skipInitialValue()
             .filter { it.isNotEmpty() }
             .map { nim ->
-                nim.toString().take(2).toInt() < 18 || nim.toString().take(2).toInt() > 21 || nim.length > 10
+                nim.toString().take(2).toInt() < 18 || nim.toString().take(2).toInt() > 21 || nim.length > 10 || nim.length < 10
             }
         nimStream.subscribe {
             showNimAlert(it)
@@ -51,7 +51,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             .skipInitialValue()
             .filter { it.isNotEmpty() }
             .map { force ->
-                force.toString().toInt() < 2018 || force.toString().toInt() > 2021
+                force.toString().toInt() < 2018 || force.toString().toInt() > 2021 || force.length < 4
             }
         force.subscribe {
             showForceAlert(it)
