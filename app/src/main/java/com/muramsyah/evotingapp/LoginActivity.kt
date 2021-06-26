@@ -7,13 +7,10 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.ktx.Firebase
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.muramsyah.evotingapp.databinding.ActivityLoginBinding
 import com.muramsyah.evotingapp.utils.FireBaseUtils
 import io.reactivex.Observable
-import io.reactivex.functions.Function
-import io.reactivex.functions.Function3
 
 class LoginActivity : AppCompatActivity() {
 
@@ -102,8 +99,12 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (FireBaseUtils.auth.currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            if (FireBaseUtils.auth.currentUser!!.isEmailVerified) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                Toast.makeText(this, "Silahkan verfikasi di email anda!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

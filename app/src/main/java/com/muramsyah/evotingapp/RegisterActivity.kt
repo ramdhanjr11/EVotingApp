@@ -165,10 +165,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     val mahasiswa = FireBaseUtils.auth.currentUser?.let {
                         Mahasiswa(
                             it.uid,
+                            binding.edtEmail.text.toString().trim(),
                             binding.edtNim.text.toString().trim(),
                             binding.edtName.text.toString().trim(),
                             binding.edtForce.text.toString().trim(),
-                            false,
                             false,
                             "0"
                         )

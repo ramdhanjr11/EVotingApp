@@ -82,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nim"
+                app:startIconDrawable="@drawable/ic_baseline_account_box_black"
                 app:counterEnabled="true"
                 app:counterMaxLength="10"
                 app:hintEnabled="true">
@@ -100,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Nama"
+                app:startIconDrawable="@drawable/ic_baseline_person_black"
                 app:hintEnabled="true">
 
                 <EditText
@@ -116,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Angkatan"
+                app:startIconDrawable="@drawable/ic_baseline_auto_graph_black"
                 app:helperTextEnabled="true"
                 app:helperText="*contoh: 2018"
                 app:helperTextTextColor="@android:color/holo_red_light"
@@ -137,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Email"
+                app:startIconDrawable="@drawable/ic_baseline_email_black"
                 app:helperTextEnabled="true"
                 app:helperText="*Gunakan Email yang valid"
                 app:helperTextTextColor="@android:color/holo_red_light"
@@ -156,6 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Password"
+                app:startIconDrawable="@drawable/ic_baseline_lock_black"
                 app:endIconMode="password_toggle"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"
@@ -175,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Confirm Password"
+                app:startIconDrawable="@drawable/ic_baseline_lock_black"
                 app:endIconMode="password_toggle"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"

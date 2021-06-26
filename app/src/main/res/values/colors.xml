@@ -6,4 +6,5 @@
     <color name="colorTextTitle">#353535</color>
     <color name="cardViewColor1">#FFFDD835</color>
     <color name="cardViewColor2">#43A047</color>
+    <color name="cardViewColor3">#29B6F6</color>
 </resources>

@@ -45,11 +45,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="1830511049"
-        android:textSize="16sp"
-        android:textColor="@color/colorOnPrimary"
         android:ellipsize="end"
         android:maxLines="1"
+        android:text="1830511049"
+        android:textColor="@color/colorOnPrimary"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp" />
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/expandable_layout"
@@ -133,39 +133,39 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginRight="16dp"
                         android:text="Visi"
-                        android:textColor="@color/colorTextTitle"/>
+                        android:textColor="@color/colorTextTitle" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
-                        android:maxLines="3"
                         android:ellipsize="end"
+                        android:maxLines="3"
                         android:text="@string/lorem_ipsum_content" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginRight="16dp"
                         android:text="Misi"
-                        android:textColor="@color/colorTextTitle"/>
+                        android:textColor="@color/colorTextTitle" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
-                        android:maxLines="3"
                         android:ellipsize="end"
+                        android:maxLines="3"
                         android:text="@string/lorem_ipsum_content" />
 
                     <Button
@@ -204,39 +204,39 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginRight="16dp"
                         android:text="Visi"
-                        android:textColor="@color/colorTextTitle"/>
+                        android:textColor="@color/colorTextTitle" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
-                        android:maxLines="3"
                         android:ellipsize="end"
+                        android:maxLines="3"
                         android:text="@string/lorem_ipsum_content" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginRight="16dp"
                         android:text="Misi"
-                        android:textColor="@color/colorTextTitle"/>
+                        android:textColor="@color/colorTextTitle" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
-                        android:maxLines="3"
                         android:ellipsize="end"
+                        android:maxLines="3"
                         android:text="@string/lorem_ipsum_content" />
 
                     <Button
@@ -249,38 +249,56 @@
 
             </net.cachapa.expandablelayout.ExpandableLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Statistik Terkini"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/include4"
+                layout="@layout/layout_item_statistik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp" />
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable_layout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:orientation="horizontal">
+                app:el_duration="1000"
+                app:el_expanded="false"
+                app:el_parallax="0.5">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp" />
 
                 <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/animationView2"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="end"
+                    android:id="@+id/progressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
                     app:lottie_autoPlay="true"
-                    app:lottie_fileName="man_with_graphs.json"
+                    app:lottie_fileName="walk_cycle_animation.json"
                     app:lottie_loop="true" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:layout_gravity="center_vertical"
-                    android:text="Statistik Terkini"
-                    android:textColor="@color/colorTextTitle"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view"
-                    tools:ignore="RtlCompat" />
-            </LinearLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
         </LinearLayout>
     </ScrollView>
 
