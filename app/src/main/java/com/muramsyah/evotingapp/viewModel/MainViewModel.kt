@@ -6,10 +6,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
 import com.muramsyah.evotingapp.model.CalonKahim
 import com.muramsyah.evotingapp.model.Mahasiswa
@@ -37,11 +37,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             FireBaseUtils.ref.getReference("CalonKahim")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        var result = ArrayList<CalonKahim>()
+                        val result = ArrayList<CalonKahim>()
                         for (i in snapshot.children) {
                             i.getValue(CalonKahim::class.java)?.let { result.add(it) }
                         }
-                        dataCalonKahim.value = result
+                        dataCalonKahim.postValue(result)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -80,6 +80,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         Toast.makeText(context, "Kamu hanya bisa voting 1x", Toast.LENGTH_SHORT).show()
                     } else {
                         FireBaseUtils.ref.getReference("Users").child(it.id).child("voteId").setValue("1")
+                        FireBaseUtils.ref.getReference("CalonKahim").child("1830511049").child("voteCount").setValue(ServerValue.increment(1))
                         FireBaseUtils.ref.getReference("Users").child(it.id).child("vote").setValue(true).addOnCompleteListener {
                             Toast.makeText(context, "Kamu telah memvoting Ramdhan!", Toast.LENGTH_SHORT).show()
                         }
@@ -102,6 +103,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         Toast.makeText(context, "Kamu hanya bisa voting 1x", Toast.LENGTH_SHORT).show()
                     } else {
                         FireBaseUtils.ref.getReference("Users").child(it.id).child("voteId").setValue("2")
+                        FireBaseUtils.ref.getReference("CalonKahim").child("1830511048").child("voteCount").setValue(ServerValue.increment(1))
                         FireBaseUtils.ref.getReference("Users").child(it.id).child("vote").setValue(true).addOnCompleteListener {
                             Toast.makeText(context, "Kamu telah memvoting Dais!", Toast.LENGTH_SHORT).show()
                         }

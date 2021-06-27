@@ -5,11 +5,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -17,26 +15,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.muramsyah.evotingapp.databinding.ActivityMainBinding
 import com.muramsyah.evotingapp.model.CalonKahim
-import com.muramsyah.evotingapp.model.Mahasiswa
 import com.muramsyah.evotingapp.model.SetupSystem
 import com.muramsyah.evotingapp.utils.FireBaseUtils
 import com.muramsyah.evotingapp.viewModel.MainViewModel
-import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.coroutines.CoroutineContext
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -71,13 +63,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.dataSystem.observe(this, { dataSystem ->
             setupSystem(dataSystem)
-            Log.d("isVote", dataSystem.dateVote + " " + dataSystem.isVote)
             if (dataSystem.isVote) {
-                binding.btn1.isEnabled = true
-                binding.btn2.isEnabled = true
+                setIsEnabledButton(true)
             } else {
-                binding.btn1.isEnabled = false
-                binding.btn2.isEnabled = false
+                setIsEnabledButton(false)
             }
         })
 
@@ -136,14 +125,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun loadPieChartData(calonKahim: ArrayList<CalonKahim>) {
         val entries = ArrayList<PieEntry>(2)
         if (calonKahim[0].voteCount < 1 && calonKahim[1].voteCount < 1) {
-            entries.add(PieEntry(1F, "Calon 1"))
-            entries.add(PieEntry(1F, "Calon 2"))
+            entries.add(PieEntry(50F, "Calon 1"))
+            entries.add(PieEntry(50F, "Calon 2"))
         } else {
             entries.add(PieEntry((calonKahim[0].voteCount.toFloat()/300)*100, "Calon 1"))
             entries.add(PieEntry((calonKahim[1].voteCount.toFloat()/300)*100, "Calon 2"))
         }
-
-        Log.d("calongKahim2", calonKahim[1].voteCount.toFloat().toString())
 
         val colors = ArrayList<Int>()
         for (i in ColorTemplate.MATERIAL_COLORS) {
@@ -169,6 +156,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.include2.container.backgroundTintList = resources.getColorStateList(R.color.cardViewColor1)
         binding.include3.container.backgroundTintList = resources.getColorStateList(R.color.cardViewColor2)
         binding.include4.container.backgroundTintList = resources.getColorStateList(R.color.cardViewColor3)
+
+        binding.include2.tvName.text = "M Ramdhan Syahputra"
+        binding.include3.tvName.text = "Dais Mulyana"
     }
 
     private fun prepare() {
@@ -183,9 +173,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val now = Date()
 
         val date: Date = sdf.parse(countDate)
-        val currentTime: Long = now.getTime()
-        val newYearDate: Long = date.getTime()
-        val countDownToNewYear = newYearDate - currentTime
+        val currentTime = now.getTime()
+        val lastVoteCandidateTime = date.getTime()
+        val countDownToNewYear = lastVoteCandidateTime - currentTime
 
         binding.mycountdown.start(countDownToNewYear)
         binding.mycountdown.setOnCountdownEndListener {
@@ -208,6 +198,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_1 -> viewModel.voteCalonKahim1()
             R.id.btn_2 -> viewModel.voteCalonKahim2()
             R.id.btn_logout -> logout()
+        }
+    }
+
+    private fun setIsEnabledButton(isEnabled: Boolean) {
+        if (isEnabled) {
+            binding.btn1.isEnabled = true
+            binding.btn2.isEnabled = true
+        } else {
+            binding.btn1.isEnabled = false
+            binding.btn2.isEnabled = false
         }
     }
 

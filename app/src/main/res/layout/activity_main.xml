@@ -47,7 +47,7 @@
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="1830511049"
+        tools:text="1830511049"
         android:textColor="@color/colorOnPrimary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
@@ -246,7 +246,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:enabled="false"
-                        android:text="Vote M Ramdhan Syahputra" />
+                        android:text="Vote Dais Mulyana" />
                 </LinearLayout>
 
             </net.cachapa.expandablelayout.ExpandableLayout>

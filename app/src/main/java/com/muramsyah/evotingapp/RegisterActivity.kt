@@ -2,26 +2,19 @@ package com.muramsyah.evotingapp
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.muramsyah.evotingapp.databinding.ActivityLoginBinding
-import com.muramsyah.evotingapp.databinding.ActivityMainBinding
 import com.muramsyah.evotingapp.databinding.ActivityRegisterBinding
 import com.muramsyah.evotingapp.model.Mahasiswa
 import com.muramsyah.evotingapp.utils.FireBaseUtils
 import io.reactivex.Observable
-import io.reactivex.functions.Function6
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -150,8 +143,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_register -> registerUser()
-            R.id.btn_login -> {
+            R.id.btn_register -> {
+                binding.progressBar.visibility = View.VISIBLE
+                registerUser()
+            }
+            R.id.tv_login -> {
                 val intent = Intent(this, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(intent)
@@ -164,11 +160,13 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(this@RegisterActivity, "Nim telah terdaftar!", Toast.LENGTH_SHORT).show()
                     } else {
                         FireBaseUtils.auth.createUserWithEmailAndPassword(binding.edtEmail.text.toString().trim(), binding.edtPassword.text.toString().trim())
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
+                                    binding.progressBar.visibility = View.GONE
                                     val mahasiswa = FireBaseUtils.auth.currentUser?.let {
                                         Mahasiswa(
                                             it.uid,
@@ -190,6 +188,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                                             finish()
                                         }
                                 } else {
+                                    binding.progressBar.visibility = View.GONE
                                     Toast.makeText(this@RegisterActivity, "Register gagal : ${task.exception}", Toast.LENGTH_LONG).show()
                                 }
                             }
