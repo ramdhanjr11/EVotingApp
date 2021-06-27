@@ -2,6 +2,7 @@ package com.muramsyah.evotingapp.viewModel
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -116,16 +117,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getSystemsFromDatabase() {
-        FireBaseUtils.ref.getReference("SetupSystem")
+        FireBaseUtils.ref.getReference("SetupSystem").child("voteSystem")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    dataSystem.postValue(snapshot.getValue(SetupSystem::class.java))
+                    val result = ArrayList<Any>()
+                    for (i in snapshot.children) {
+                        result.add(i.value as Any)
+                    }
+                    dataSystem.value = SetupSystem(result[0].toString(), result[1] as Boolean)
+                    Log.d("result", result.toString())
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
-
             })
     }
 

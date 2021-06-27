@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.dataSystem.observe(this, { dataSystem ->
             setupSystem(dataSystem)
-            Log.d("isVote", dataSystem.isVote.toString())
+            Log.d("isVote", dataSystem.dateVote + " " + dataSystem.isVote)
             if (dataSystem.isVote) {
                 binding.btn1.isEnabled = true
                 binding.btn2.isEnabled = true

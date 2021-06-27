@@ -173,6 +173,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:enabled="false"
                         android:text="Vote M Ramdhan Syahputra" />
                 </LinearLayout>
             </net.cachapa.expandablelayout.ExpandableLayout>
@@ -244,6 +245,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:enabled="false"
                         android:text="Vote M Ramdhan Syahputra" />
                 </LinearLayout>
 
